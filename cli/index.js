@@ -53,7 +53,7 @@ const promptForProjectName = async () => {
     return await inquirer.prompt(QUESTIONS)
 }
 
-const createProject = (answers) => {f
+const createProject = (answers) => {
     const projectChoice = answers['project-choice'];
     const projectName = answers['project-name'];
 
