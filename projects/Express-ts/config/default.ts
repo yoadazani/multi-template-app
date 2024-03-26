@@ -1,5 +1,7 @@
+import customEnvVariables from './custom-environment-variables';
+
 export default {
-    env: 'NODE_ENV',
+    env: customEnvVariables.env,
     app: {
         start: `Server is running on {0}`
     },
@@ -10,7 +12,7 @@ export default {
         url: '{protocol}://{host}:{port}',
     },
     auth: {
-        jwtSecret: 'JWT_SECRET',
+        jwtSecret: customEnvVariables.auth.jwtSecret,
         expiresIn: '1h',
         otp_expiration: 1000 * 60 * 10,
     },
@@ -18,7 +20,7 @@ export default {
         service: 'gmail.com',
         port: 465,
         secure: false,
-        emailUser: 'EMAIL_USER',
-        emailPass: 'EMAIL_PASS',
+        emailUser: customEnvVariables.email.emailUser,
+        emailPass: customEnvVariables.email.emailPass,
     },
 };
