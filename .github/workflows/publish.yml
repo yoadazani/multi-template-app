@@ -7,10 +7,11 @@ on:
 jobs:
   publish:
       runs-on: ubuntu-latest
+      if: ${{ github.ref == 'refs/heads/main' }}
 
       strategy:
         matrix:
-          node-version: [16, 18, 20]
+          node-version: 20
 
       steps:
           - name: Checkout
@@ -25,10 +26,11 @@ jobs:
           - name: Install dependencies
             run: npm install
           - run: npm run semantic-release
+            env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
           - name: Publish to npm
             run: npm publish --access public
             env:
                 NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
