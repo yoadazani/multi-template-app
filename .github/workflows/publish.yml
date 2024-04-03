@@ -33,14 +33,17 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Configure Git user
+        run: |
+          git config --global user.name 'GitHub Actions Bot'
+          git config --global user.email 'actions@github.com'
+
       - name: Update package.json version
         run: |
           npm version patch -m "Bump version to %s" --force
 
       - name: Commit and push changes
         run: |
-          git config --global user.name 'yoadazani'
-          git config --global user.email 'portfolio208389403@gmail.com'
           git add package.json
           git commit -m "Bump version"
           git push
