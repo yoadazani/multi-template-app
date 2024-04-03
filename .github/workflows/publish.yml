@@ -41,12 +41,6 @@ jobs:
       - name: Update package.json version
         run: |
           npm version patch -m "Bump version to %s" --force
-          
-      - name: Cat package.json
-        run: cat package.json
-
-      - name: Commit and push changes
-        run: |
           git add package.json
           git commit -m "Bump version"
           git push
