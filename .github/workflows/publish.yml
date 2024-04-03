@@ -35,7 +35,7 @@ jobs:
 
       - name: Update package.json version
         run: |
-          npm version patch -m "Bump version to %s"
+          npm version patch -m "Bump version to %s" --force
 
       - name: Commit and push changes
         run: |
