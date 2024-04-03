@@ -23,12 +23,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Login to npm
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          npm config set "//registry.npmjs.org/:_authToken" $NPM_TOKEN
-          npm whoami
 
       - name: Install dependencies
         run: npm install
@@ -43,6 +37,13 @@ jobs:
           npm version patch -m "Bump version to %s" --force
           git add package.json
           git push
+
+      - name: Login to npm
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          npm config set "//registry.npmjs.org/:_authToken" $NPM_TOKEN
+          npm whoami
 
       - name: Publish to npm
         run: npm run publish
