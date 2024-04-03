@@ -4,7 +4,7 @@ import { ResponseType } from '../types/ResponseType';
 
 const errorHandler = (
     err: Error,
-    _req: Request,
+    req: Request,
     res: Response,
     next: NextFunction,
 ) => {

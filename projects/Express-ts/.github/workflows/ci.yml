@@ -1,0 +1,108 @@
+name: Continues Integration Workflow
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - src/**
+      - prisma/**
+      - config/**
+      - .github/workflows/ci.yml
+  push:
+    branches:
+      - main
+    paths:
+      - src/**
+      - prisma/**
+      - config/**
+      - .github/workflows/ci.yml
+
+jobs:
+  test:
+    name: Testing & linting the application
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [ 20 ]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm run test
+
+      - name: Run linter
+        run: npm run lint:check
+
+  build:
+    name: Build the application
+    needs: test
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [ 20 ]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Create .env file
+        run: |
+          touch .env
+          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
+          echo IS_CI_WORKFLOW=${{ secrets.IS_CI_WORKFLOW }} >> .env
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
+          echo EMAIL_USER=${{ secrets.EMAIL_USER }} >> .env
+          echo EMAIL_PASS=${{ secrets.EMAIL_PASS }} >> .env
+
+      - name: Build project
+        run: npm run build
+
+      - name: Upload production-ready build files
+        uses: actions/upload-artifact@v3
+        with:
+          name: production-files
+          path: ./build
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: production-files
+          path: ./build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build

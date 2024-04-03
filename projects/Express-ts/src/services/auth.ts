@@ -7,6 +7,7 @@ import { AuthError } from '../errors/AuthError';
 import { sendEmail } from '../utils/emailSender';
 import { HttpStatusCodes } from '../constants/httpStatusCodes';
 import { authConfig } from '../../config';
+import { CSRF_SECRET } from '../constants';
 
 const getUser = async (by: 'email' | 'id', value: string) => {
     let user: UserType | null;
@@ -86,10 +87,10 @@ const generateCSRFToken = () => {
     const csrfSecret = csrfProtection.secretSync();
     const csrfToken = csrfProtection.create(csrfSecret);
 
-    return {
-        csrfSecret,
-        csrfToken,
-    };
+    // store the csrfSecret on constant CSRF_SECRETE Map()
+    CSRF_SECRET.set('CSRF_SECRET', csrfSecret);
+
+    return { csrfToken };
 };
 
 const hashPassword = (password: string): string =>

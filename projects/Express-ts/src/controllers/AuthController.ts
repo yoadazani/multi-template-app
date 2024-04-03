@@ -12,6 +12,8 @@ import { resetPasswordSchema } from '../schemas/auth/resetPasswordSchema';
 import { HttpStatusCodes } from '../constants/httpStatusCodes';
 import { ValidationError } from '../errors/ValidationError';
 import { ResponseType } from '../types/ResponseType';
+import { generateCSRFToken } from '../services/auth';
+import { CSRF_SECRET } from '../constants';
 
 const login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
@@ -26,7 +28,6 @@ const login = async (req: Request, res: Response) => {
     }
 
     const token = await authServices.login(email, password);
-    const { csrfSecret, csrfToken: _csrf } = authServices.generateCSRFToken();
 
     const cookiesOptions = {
         httpOnly: true,
@@ -37,11 +38,10 @@ const login = async (req: Request, res: Response) => {
     };
 
     res.cookie('accessToken', token, cookiesOptions);
-    res.cookie('_csrf', csrfSecret, cookiesOptions);
 
-    const response: ResponseType<{ token: string; _csrf: string }> = {
+    const response: ResponseType<{ token: string }> = {
         message: 'user logged in!',
-        data: { token, _csrf },
+        data: { token },
     };
     res.status(HttpStatusCodes.OK).json(response);
 };
@@ -154,6 +154,7 @@ const confirmEmail = async (req: Request, res: Response) => {
             user,
         },
     };
+
     res.status(HttpStatusCodes.CREATED).json(response);
 };
 
@@ -199,6 +200,14 @@ const resetPassword = async (req: Request, res: Response) => {
     res.status(HttpStatusCodes.OK).json(response);
 };
 
+const createCsrfToken = async (_req: Request, res: Response) => {
+    const { csrfToken } = generateCSRFToken();
+
+    res.status(HttpStatusCodes.OK).json({
+        csrfToken,
+    });
+};
+
 export {
     login,
     signup,
@@ -207,4 +216,5 @@ export {
     forgotPassword,
     resetPassword,
     confirmEmail,
+    createCsrfToken,
 };

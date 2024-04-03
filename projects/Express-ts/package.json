@@ -2,6 +2,10 @@
     "name": "express-ts-api",
     "version": "0.0.0",
     "description": "",
+    "repository": {
+        "git": "git",
+        "url": "https://github.com/yoadazani/node-ts-api-app.git"
+    },
     "lint-staged": {
         "src/**/*.ts": [
             "prettier --write",
@@ -14,8 +18,8 @@
         "start": "NODE_ENV=YOAD nodemon src/app.ts",
         "start:dev": "NODE_ENV=development nodemon src/app.ts",
         "start:prod": "NODE_ENV=production nodemon build/index.bundle.js",
-        "build": "npm run prisma:generate && npm run prisma:migrate && webpack",
-        "test": "NODE_ENV=test jest --watchAll --detectOpenHandles --forceExit --coverage",
+        "build": "NODE_ENV=production npm run prisma:generate && npm run prisma:migrate && webpack",
+        "test": "NODE_ENV=test jest -i",
         "format": "prettier --write .",
         "lint:check": "eslint .",
         "lint:fix": "npm run lint:check -- --fix",
@@ -27,7 +31,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "@prisma/client": "^5.11.0",
+        "@prisma/client": "^5.12.0",
         "@types/joi": "^17.2.3",
         "@types/nodemailer": "^6.4.14",
         "axios": "^1.6.7",
@@ -90,7 +94,7 @@
         "lint-staged": "^15.2.2",
         "nodemon": "^3.0.3",
         "prettier": "^3.2.5",
-        "prisma": "^5.11.0",
+        "prisma": "^5.12.0",
         "supertest": "^6.3.4",
         "ts-jest": "^29.1.2",
         "ts-node": "^10.9.2",

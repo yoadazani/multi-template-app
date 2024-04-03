@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
     confirmEmail,
+    createCsrfToken,
     forgotPassword,
     login,
     logout,
@@ -21,7 +22,7 @@ declare module 'express-serve-static-core' {
 
 const router = Router();
 
-router.route('/login').get(login);
+router.route('/login').post(login);
 
 router.route('/signup').post(signup);
 
@@ -33,6 +34,8 @@ router.route('/forget-password/:email').get(forgotPassword);
 
 router.route('/confirm-email').post(csrfMiddleware, confirmEmail);
 
-router.route('/reset-password').put(csrfMiddleware, resetPassword);
+router.route('/reset-password').put(rateLimiter, csrfMiddleware, resetPassword);
+
+router.route('/csrf-token').get(createCsrfToken);
 
 export default router;

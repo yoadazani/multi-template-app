@@ -7,7 +7,7 @@ const transporter = nodemailer.createTransport({
     port: emailConfig.port,
     auth: {
         user: emailConfig.emailUser!,
-        pass: emailConfig.emailPass!,
+        pass: emailConfig.emailUser!,
     },
 });
 
@@ -21,7 +21,8 @@ const sendEmail = (email: string, subject: string, text: string) => {
 
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-            throw new Error(error.message);
+            const { message } = error as Error;
+            console.log(message);
         } else {
             console.log(`Email sent: ${info.response}`);
         }

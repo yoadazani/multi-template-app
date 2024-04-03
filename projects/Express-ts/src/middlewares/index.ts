@@ -23,7 +23,7 @@ export const declareMiddlewares = (app: Express) => {
 
     app.use(sanitizeData); // sanitize data from request body
     app.use(hpp()); // http params pollution prevention
-    app.use(rateLimiter); // rate limiting for api requests
+    app.use(rateLimiter); // rate limiting middleware
 
     app.use(loggerMiddleware); // logger middleware for log the errors and warnings to logger files
 
