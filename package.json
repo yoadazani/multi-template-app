@@ -8,8 +8,7 @@
     "access": "public"
   },
   "scripts": {
-    "start": "node ./cli/index.js",
-    "publish": "npm publish --access public"
+    "start": "node ./cli/index.js"
   },
   "bin": {
     "template-cli": "./cli/index.js"
