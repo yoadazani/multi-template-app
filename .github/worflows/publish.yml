@@ -5,31 +5,31 @@ on:
       branches:
           - main
 jobs:
-    publish:
-        runs-on: ubuntu-latest
-        if: ${{ github.ref == 'refs/heads/main' }}
+  publish:
+      runs-on: ubuntu-latest
+      if: ${{ github.ref == 'refs/heads/main' }}
 
-        strategy:
-          matrix:
-            node-version: ['16.x', '18.x', '20.x']
+      strategy:
+        matrix:
+          node-version: ['16.x', '18.x', '20.x']
 
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
+      steps:
+          - name: Checkout
+            uses: actions/checkout@v4
 
-            - name: Setup Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: ${{ matrix.node-version }}
-                  registry-url: 'https://registry.npmjs.org'
+          - name: Setup Node.js
+            uses: actions/setup-node@v4
+            with:
+                node-version: ${{ matrix.node-version }}
+                registry-url: 'https://registry.npmjs.org'
 
-            - name: Install dependencies
-              run: npm install
-            - run: npm run semantic-release
+          - name: Install dependencies
+            run: npm install
+          - run: npm run semantic-release
 
-            - name: Publish to npm
-              run: npm publish --access public
-              env:
-                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          - name: Publish to npm
+            run: npm publish --access public
+            env:
+                NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
