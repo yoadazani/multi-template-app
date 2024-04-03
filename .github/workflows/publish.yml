@@ -42,7 +42,6 @@ jobs:
         run: |
           npm version patch -m "Bump version to %s" --force
           git add package.json
-          git commit -m "Bump version"
           git push
 
       - name: Publish to npm
