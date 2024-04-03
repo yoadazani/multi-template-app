@@ -46,5 +46,5 @@ jobs:
           npm whoami
 
       - name: Publish to npm
-        run: npm run publish
+        run: npm publish --access public
 
