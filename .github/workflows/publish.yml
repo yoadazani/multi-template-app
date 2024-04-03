@@ -40,7 +40,10 @@ jobs:
 
       - name: Update package.json version
         run: |
-          npm version patch -m "Bump version to %s" --force
+          npm version patch -m "Bump version to %s"
+          
+      - name: Cat package.json
+        run: cat package.json
 
       - name: Commit and push changes
         run: |
