@@ -21,13 +21,18 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          registry-url: 'https://registry.npmjs.org/@yoadazani/multi-template-app'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Login to npm
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          npm config set "//registry.npmjs.org/:_authToken" $NPM_TOKEN
+          npm whoami
 
       - name: Install dependencies
         run: npm install
 
       - name: Publish to npm
         run: npm run publish
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
