@@ -23,7 +23,7 @@ class CreateServer {
 
         declareRoutes(this.app)
 
-        this.httpServer = this.app.listen(port, host, () => {
+        this.httpServer = this.app.listen(port, () => {
             const serverUrl = url
                 .replace(/\{protocol}/g, protocol)
                 .replace(/\{host}/g, host)
