@@ -1,6 +1,6 @@
 {
   "name": "@yoadazani/multi-template-app",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "",
   "main": "./cli/index.js",
   "type": "module",
