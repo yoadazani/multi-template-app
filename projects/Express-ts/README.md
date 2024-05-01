@@ -20,24 +20,34 @@ This is a template for creating a Node.js Express API with TypeScript. It includ
    ```bash
    npm install
    ```
-2. Build the project:
+2. Generate pirsma ORM:
+   
+   ```bash
+   npm run prisma:generate
+   ```
+3. Migrate pirsma DB:
+   
+   ```bash
+   npm run prisma:migrate
+   ```
+4. Build the project:
 
    ```bash
    npm run build
    ```
-3. Run in development mode:
+5. Run in development mode:
    
    ```bash
    npm run start:dev
    ```
 
-4. Run in production mode:
+6. Run in production mode:
 
    ```bash
    npm run start:prod
    ```
 
-5. Run tests:
+7. Run tests:
 
    ```bash
    npm run test
